@@ -26,7 +26,7 @@ auth_manager = SpotifyOAuth(
     redirect_uri=redirect_uri,
     scope=scope,
     show_dialog=True,
-    #cache_path=".cache"  # 認証トークンのキャッシュ
+    cache_path=".cache"  # 認証トークンのキャッシュ
 )
 # StreamlitでURLパラメータを取得
 query_params = st.experimental_get_query_params()
