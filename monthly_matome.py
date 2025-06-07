@@ -22,7 +22,7 @@ scope = "playlist-modify-public playlist-modify-private"
 # 認証オブジェクトの生成
 auth_manager = SpotifyOAuth(
     client_id=client_id,
-    client_secret=client_secretT,
+    client_secret=client_secret,
     redirect_uri=redirect_uri,
     scope=scope,
     show_dialog=True,
