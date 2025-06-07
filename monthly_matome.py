@@ -18,6 +18,7 @@ client_secret = st.secrets["SPOTIFY_CLIENT_SECRET"]
 redirect_uri = st.secrets["SPOTIFY_REDIRECT_URI"]
 # SpotifyのクライアントIDとクライアントシークレットを使用して認証
 client_credentials_manager = SpotifyClientCredentials(client_id=client_id, client_secret=client_secret)
+st.write("Starting Spotify auth...")
 sp = spotipy.Spotify(auth_manager=SpotifyOAuth(client_id=client_id,client_secret=client_secret,redirect_uri=redirect_uri,scope="playlist-modify-public playlist-modify-private"))
 
 # サイズ設定
