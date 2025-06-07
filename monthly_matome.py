@@ -15,10 +15,8 @@ from io import BytesIO, TextIOWrapper
 # SpotifyのクライアントIDとクライアントシークレットを設定
 client_id = st.secrets["SPOTIFY_CLIENT_ID"]
 client_secret = st.secrets["SPOTIFY_CLIENT_SECRET"]
-sp = spotipy.Spotify(auth_manager=SpotifyClientCredentials(
-    client_id,
-    client_secret
-))
+auth_manager = SpotifyClientCredentials(client_id=client_id, client_secret=client_secret)
+sp = spotipy.Spotify(auth_manager=auth_manager)
 # サイズ設定
 image_size = (100, 100)
 padding = 20
