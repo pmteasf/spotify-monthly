@@ -18,32 +18,9 @@ client_secret = st.secrets["SPOTIFY_CLIENT_SECRET"]
 redirect_uri = st.secrets["SPOTIFY_REDIRECT_URI"]
 # SpotifyのクライアントIDとクライアントシークレットを使用して認証
 client_credentials_manager = SpotifyClientCredentials(client_id=client_id, client_secret=client_secret)
-sp_oauth = SpotifyOAuth(
-    client_id=client_id,
-    client_secret=client_secret,
-    redirect_uri=redirect_uri,
-    scope="playlist-modify-public playlist-modify-private",
-    open_browser=False,  # Streamlit Cloud では False 推奨
-    show_dialog=True,
-    cache_path=".cache",  # 認証状態をキャッシュ（必須）
-    requests_session=True
-)
+st.write("Starting Spotify auth...")
+sp = spotipy.Spotify(auth_manager=SpotifyOAuth(client_id=client_id,client_secret=client_secret,redirect_uri=redirect_uri,scope="playlist-modify-public playlist-modify-private"))
 
-auth_url = sp_oauth.get_authorize_url()
-st.write("以下のURLをクリックしてSpotifyにログインし、URLバーの code= 以降をコピーしてください:")
-st.markdown(f"[Spotify認証リンク]({auth_url})")
-
-# code入力欄
-code = st.text_input("SpotifyからリダイレクトされたURLの `code` パラメータをここに貼ってください:")
-
-if code:
-    token_info = sp_oauth.get_access_token(code, as_dict=False)
-    sp = spotipy.Spotify(auth=token_info)
-    user_info = sp.current_user()
-    st.write("✅ 認証成功！ユーザー情報:", user_info)
-sp = spotipy.Spotify(auth_manager=sp_oauth)
-user_info = sp.current_user()
-st.success(f"認証成功：{user_info['display_name']}")
 # サイズ設定
 image_size = (100, 100)
 padding = 20
@@ -76,17 +53,13 @@ def Make_data(json_files,year, month):
 def Get_top_tracks(monthly_data):
     top_tracks = monthly_data.groupby(['artistName', 'trackName']).size().reset_index(name='count').sort_values('count', ascending=False).head(5)
     top_tracks['image_url'] = top_tracks.apply(lambda row: Get_track_image_url(row['artistName'], row['trackName']), axis=1)
-    print(top_tracks)
     top_tracks = top_tracks.reset_index(drop=True)
-    print(top_tracks)
     return top_tracks
 
 # 楽曲画像URLを取得する関数
 def Get_track_image_url(artist, track):
     query = f"artist:{artist} track:{track}"
-    print(query)
     result = sp.search(q=query, type='track', limit=1)
-    print(result)
     items = result['tracks']['items']
     if items:
         return items[0]['album']['images'][0]['url']  # 一番大きい画像
@@ -207,12 +180,11 @@ if st.button("画像を生成"):
             monthly_data = df_all[(df_all['endTime'].dt.year == year) & (df_all['endTime'].dt.month == month)]
             print(monthly_data)
             top_tracks = Get_top_tracks(monthly_data)
-            print(top_tracks)
             top_artists = Get_top_artists(monthly_data)
-            print(top_arist)
+
             Plot_top_tracks_image(top_tracks)
             Plot_top_artists_image(top_artists)
-            st.write("プロット完了")
+
             st.success("画像生成が完了しました！")
 
             # 結果画像表示
