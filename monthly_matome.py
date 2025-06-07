@@ -48,6 +48,7 @@ def Make_data(json_files,year, month):
 # 月ごとの再生回数上位5曲を取得
 def Get_top_tracks(monthly_data):
     top_tracks = monthly_data.groupby(['artistName', 'trackName']).size().reset_index(name='count').sort_values('count', ascending=False).head(5)
+    print(top_tracks)
     top_tracks['image_url'] = top_tracks.apply(lambda row: Get_track_image_url(row['artistName'], row['trackName']), axis=1)
     top_tracks = top_tracks.reset_index(drop=True)
     return top_tracks
@@ -55,9 +56,7 @@ def Get_top_tracks(monthly_data):
 # 楽曲画像URLを取得する関数
 def Get_track_image_url(artist, track):
     query = f"artist:{artist} track:{track}"
-    print(query)
     result = sp.search(q=query, type='track', limit=1)
-    print(result)
     items = result['tracks']['items']
     if items:
         return items[0]['album']['images'][0]['url']  # 一番大きい画像
@@ -176,10 +175,10 @@ if st.button("画像を生成"):
         else:
             df_all = pd.concat(dfs, ignore_index=True)
             monthly_data = df_all[(df_all['endTime'].dt.year == year) & (df_all['endTime'].dt.month == month)]
-            print(monthly_data)
             top_tracks = Get_top_tracks(monthly_data)
             top_artists = Get_top_artists(monthly_data)
-
+            print(top_tracks)
+            print(top_artists)
             Plot_top_tracks_image(top_tracks)
             Plot_top_artists_image(top_artists)
 
