@@ -18,16 +18,27 @@ client_secret = st.secrets["SPOTIFY_CLIENT_SECRET"]
 redirect_uri = st.secrets["SPOTIFY_REDIRECT_URI"]
 # SpotifyのクライアントIDとクライアントシークレットを使用して認証
 client_credentials_manager = SpotifyClientCredentials(client_id=client_id, client_secret=client_secret)
-sp = spotipy.Spotify(auth_manager=SpotifyOAuth(
+sp_oauth = SpotifyOAuth(
     client_id=client_id,
     client_secret=client_secret,
     redirect_uri=redirect_uri,
     scope="playlist-modify-public playlist-modify-private",
-    open_browser=False,  # Streamlit Cloud では False 推奨
-    show_dialog=True,
-    cache_path=".cache",  # 認証状態をキャッシュ（必須）
-    requests_session=True
-))
+    show_dialog=True
+)
+
+auth_url = sp_oauth.get_authorize_url()
+st.write("以下のURLをクリックしてSpotifyにログインし、URLバーの code= 以降をコピーしてください:")
+st.markdown(f"[Spotify認証リンク]({auth_url})")
+
+# code入力欄
+code = st.text_input("SpotifyからリダイレクトされたURLの `code` パラメータをここに貼ってください:")
+
+if code:
+    token_info = sp_oauth.get_access_token(code, as_dict=False)
+    sp = spotipy.Spotify(auth=token_info)
+    user_info = sp.current_user()
+    st.write("✅ 認証成功！ユーザー情報:", user_info)
+sp = spotipy.Spotify(auth_manager=sp_oauth)
 user_info = sp.current_user()
 st.success(f"認証成功：{user_info['display_name']}")
 # サイズ設定
