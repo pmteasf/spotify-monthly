@@ -177,7 +177,7 @@ if st.button("画像を生成"):
             top_tracks = Get_top_tracks(monthly_data)
             #top_artists = Get_top_artists(monthly_data)
             Plot_top_tracks_image(top_tracks)
-            Plot_top_artists_image(top_artists)
+            #Plot_top_artists_image(top_artists)
 
             st.success("画像生成が完了しました！")
 
