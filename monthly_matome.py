@@ -16,10 +16,29 @@ from io import BytesIO, TextIOWrapper
 client_id = st.secrets["SPOTIFY_CLIENT_ID"]
 client_secret = st.secrets["SPOTIFY_CLIENT_SECRET"]
 redirect_uri = st.secrets["SPOTIFY_REDIRECT_URI"]
+"""
 # SpotifyのクライアントIDとクライアントシークレットを使用して認証
 client_credentials_manager = SpotifyClientCredentials(client_id=client_id, client_secret=client_secret)
 st.write("Starting Spotify auth...")
 sp = spotipy.Spotify(auth_manager=SpotifyOAuth(client_id=client_id,client_secret=client_secret,redirect_uri=redirect_uri,scope="playlist-modify-public playlist-modify-private"))
+"""
+# 認証スコープ
+scope = "playlist-modify-public playlist-modify-private"
+
+# SpotifyOAuthオブジェクト作成
+sp_oauth = SpotifyOAuth(
+    client_id=client_id,
+    client_secret=client_secret,
+    redirect_uri=redirect_uri,
+    scope=scope,
+    show_dialog=True
+)
+
+# 認証用URLを取得
+auth_url = sp_oauth.get_authorize_url()
+st.markdown("## 🔐 Spotifyログイン")
+st.markdown(f"[Spotifyで認証]({auth_url}) をクリックして、認証を行ってください。")
+
 
 # サイズ設定
 image_size = (100, 100)
