@@ -17,7 +17,7 @@ client_id = st.secrets["SPOTIFY_CLIENT_ID"]
 client_secret = st.secrets["SPOTIFY_CLIENT_SECRET"]
 redirect_uri = st.secrets["SPOTIFY_REDIRECT_URI"]
 # 認証スコープ
-scope = "playlist-modify-public playlist-modify-private"
+scope = ""
 
 # 認証オブジェクトの生成
 auth_manager = SpotifyOAuth(
