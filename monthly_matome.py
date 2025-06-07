@@ -23,7 +23,10 @@ sp_oauth = SpotifyOAuth(
     client_secret=client_secret,
     redirect_uri=redirect_uri,
     scope="playlist-modify-public playlist-modify-private",
-    show_dialog=True
+    open_browser=False,  # Streamlit Cloud では False 推奨
+    show_dialog=True,
+    cache_path=".cache",  # 認証状態をキャッシュ（必須）
+    requests_session=True
 )
 
 auth_url = sp_oauth.get_authorize_url()
