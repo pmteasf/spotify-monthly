@@ -16,29 +16,35 @@ from io import BytesIO, TextIOWrapper
 client_id = st.secrets["SPOTIFY_CLIENT_ID"]
 client_secret = st.secrets["SPOTIFY_CLIENT_SECRET"]
 redirect_uri = st.secrets["SPOTIFY_REDIRECT_URI"]
-"""
-# SpotifyのクライアントIDとクライアントシークレットを使用して認証
-client_credentials_manager = SpotifyClientCredentials(client_id=client_id, client_secret=client_secret)
-st.write("Starting Spotify auth...")
-sp = spotipy.Spotify(auth_manager=SpotifyOAuth(client_id=client_id,client_secret=client_secret,redirect_uri=redirect_uri,scope="playlist-modify-public playlist-modify-private"))
-"""
 # 認証スコープ
 scope = "playlist-modify-public playlist-modify-private"
 
-# SpotifyOAuthオブジェクト作成
-sp_oauth = SpotifyOAuth(
+# 認証オブジェクトの生成
+auth_manager = SpotifyOAuth(
     client_id=client_id,
-    client_secret=client_secret,
+    client_secret=client_secretT,
     redirect_uri=redirect_uri,
     scope=scope,
-    show_dialog=True
+    show_dialog=True,
+    cache_path=".cache"  # 認証トークンのキャッシュ
 )
-
-# 認証用URLを取得
-auth_url = sp_oauth.get_authorize_url()
-st.markdown("## 🔐 Spotifyログイン")
-st.markdown(f"[Spotifyで認証]({auth_url}) をクリックして、認証を行ってください。")
-
+# StreamlitでURLパラメータを取得
+query_params = st.experimental_get_query_params()
+code = query_params.get("code", [None])[0]
+# 初回：ログインボタンを表示
+if not code:
+    auth_url = auth_manager.get_authorize_url()
+    st.markdown(f"[Spotifyでログインする]({auth_url})")
+else:
+    # コードを使ってトークン取得
+    token_info = auth_manager.get_access_token(code, as_dict=True)
+    if token_info:
+        access_token = token_info["access_token"]
+        sp = spotipy.Spotify(auth=access_token)
+        user_info = sp.current_user()
+        st.success(f"ログイン成功！ようこそ {user_info['display_name']} さん")
+    else:
+        st.error("認証に失敗しました。")
 
 # サイズ設定
 image_size = (100, 100)
