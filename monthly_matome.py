@@ -55,7 +55,9 @@ def Get_top_tracks(monthly_data):
 # 楽曲画像URLを取得する関数
 def Get_track_image_url(artist, track):
     query = f"artist:{artist} track:{track}"
+    print(query)
     result = sp.search(q=query, type='track', limit=1)
+    print(result)
     items = result['tracks']['items']
     if items:
         return items[0]['album']['images'][0]['url']  # 一番大きい画像
