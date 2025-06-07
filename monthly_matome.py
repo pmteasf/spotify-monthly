@@ -23,7 +23,7 @@ sp = spotipy.Spotify(auth_manager=SpotifyOAuth(
     client_secret=client_secret,
     redirect_uri=redirect_uri,
     scope="playlist-modify-public playlist-modify-private",
-    open_browser=True,  # Streamlit Cloud では False 推奨
+    open_browser=False,  # Streamlit Cloud では False 推奨
     show_dialog=True,
     cache_path=".cache",  # 認証状態をキャッシュ（必須）
     requests_session=True
