@@ -45,8 +45,14 @@ else:
         st.success(f"ログイン成功！ようこそ {user_info['display_name']} さん")
     else:
         st.error("認証に失敗しました。")
-token_info = auth_manager.get_access_token(code)
 
+print("\n上のURLをブラウザで開いて、認証してください。認証後リダイレクトURLにcode=が付きます。")
+
+# リダイレクトURLからcodeパラメータをコピーして入力
+code = input("認証コードを入力してください: ").strip()
+
+
+token_info = auth_manager.get_access_token(code)
 print("\n取得したトークン情報:")
 print(token_info)
 # サイズ設定
