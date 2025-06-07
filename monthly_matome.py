@@ -176,6 +176,7 @@ if st.button("画像を生成"):
         else:
             df_all = pd.concat(dfs, ignore_index=True)
             monthly_data = df_all[(df_all['endTime'].dt.year == year) & (df_all['endTime'].dt.month == month)]
+            print(monthly_data)
             top_tracks = Get_top_tracks(monthly_data)
             print(top_tracks)
             top_artists = Get_top_artists(monthly_data)
