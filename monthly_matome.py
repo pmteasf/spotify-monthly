@@ -45,7 +45,7 @@ else:
         st.success(f"ログイン成功！ようこそ {user_info['display_name']} さん")
     else:
         st.error("認証に失敗しました。")
-token_info = sp_oauth.get_access_token(code)
+token_info = auth_manager.get_access_token(code)
 
 print("\n取得したトークン情報:")
 print(token_info)
