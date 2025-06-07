@@ -18,9 +18,7 @@ client_secret = st.secrets["SPOTIFY_CLIENT_SECRET"]
 redirect_uri = st.secrets["SPOTIFY_REDIRECT_URI"]
 # SpotifyのクライアントIDとクライアントシークレットを使用して認証
 client_credentials_manager = SpotifyClientCredentials(client_id=client_id, client_secret=client_secret)
-st.write("Starting Spotify auth...")
 sp = spotipy.Spotify(auth_manager=SpotifyOAuth(client_id=client_id,client_secret=client_secret,redirect_uri=redirect_uri,scope="playlist-modify-public playlist-modify-private"))
-st.write("End Spotify auth...")
 # サイズ設定
 image_size = (100, 100)
 padding = 20
@@ -184,7 +182,7 @@ if st.button("画像を生成"):
 
             Plot_top_tracks_image(top_tracks)
             Plot_top_artists_image(top_artists)
-
+            st.write("プロット完了")
             st.success("画像生成が完了しました！")
 
             # 結果画像表示
