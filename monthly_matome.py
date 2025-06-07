@@ -16,15 +16,13 @@ from io import BytesIO, TextIOWrapper
 client_id = st.secrets["SPOTIFY_CLIENT_ID"]
 client_secret = st.secrets["SPOTIFY_CLIENT_SECRET"]
 redirect_uri = st.secrets["SPOTIFY_REDIRECT_URI"]
-# 認証スコープ
-scope = ""
+
 
 # 認証オブジェクトの生成
 auth_manager = SpotifyOAuth(
     client_id=client_id,
     client_secret=client_secret,
     redirect_uri=redirect_uri,
-    scope=scope,
     show_dialog=True,
     cache_path=".cache"  # 認証トークンのキャッシュ
 )
