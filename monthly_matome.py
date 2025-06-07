@@ -50,8 +50,11 @@ def Make_data(json_files,year, month):
 # 月ごとの再生回数上位5曲を取得
 def Get_top_tracks(monthly_data):
     top_tracks = monthly_data.groupby(['artistName', 'trackName']).size().reset_index(name='count').sort_values('count', ascending=False).head(5)
+    print(top_tracks)
     top_tracks['image_url'] = top_tracks.apply(lambda row: Get_track_image_url(row['artistName'], row['trackName']), axis=1)
+    print(top_tracks)
     top_tracks = top_tracks.reset_index(drop=True)
+    print(top_tracks)
     return top_tracks
 
 # 楽曲画像URLを取得する関数
