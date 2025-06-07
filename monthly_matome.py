@@ -20,7 +20,7 @@ redirect_uri = st.secrets["SPOTIFY_REDIRECT_URI"]
 client_credentials_manager = SpotifyClientCredentials(client_id=client_id, client_secret=client_secret)
 st.write("Starting Spotify auth...")
 sp = spotipy.Spotify(auth_manager=SpotifyOAuth(client_id=client_id,client_secret=client_secret,redirect_uri=redirect_uri,scope="playlist-modify-public playlist-modify-private"))
-
+st.write("End Spotify auth...")
 # サイズ設定
 image_size = (100, 100)
 padding = 20
