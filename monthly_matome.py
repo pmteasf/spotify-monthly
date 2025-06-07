@@ -49,10 +49,10 @@ else:
 print("\n上のURLをブラウザで開いて、認証してください。認証後リダイレクトURLにcode=が付きます。")
 
 # リダイレクトURLからcodeパラメータをコピーして入力
-code = input("認証コードを入力してください: ").strip()
+code2 = input("認証コードを入力してください: ").strip()
 
 
-token_info = auth_manager.get_access_token(code)
+token_info = auth_manager.get_access_token(code2)
 print("\n取得したトークン情報:")
 print(token_info)
 # サイズ設定
