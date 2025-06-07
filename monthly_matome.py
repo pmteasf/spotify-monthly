@@ -18,7 +18,16 @@ client_secret = st.secrets["SPOTIFY_CLIENT_SECRET"]
 redirect_uri = st.secrets["SPOTIFY_REDIRECT_URI"]
 # SpotifyのクライアントIDとクライアントシークレットを使用して認証
 client_credentials_manager = SpotifyClientCredentials(client_id=client_id, client_secret=client_secret)
-sp = spotipy.Spotify(auth_manager=SpotifyOAuth(client_id=client_id,client_secret=client_secret,redirect_uri=redirect_uri,scope="playlist-modify-public playlist-modify-private"))
+sp = spotipy.Spotify(auth_manager=SpotifyOAuth(
+    client_id=client_id,
+    client_secret=client_secret,
+    redirect_uri=redirect_uri,
+    scope="playlist-modify-public playlist-modify-private",
+    open_browser=True,  # Streamlit Cloud では False 推奨
+    show_dialog=True,
+    cache_path=".cache",  # 認証状態をキャッシュ（必須）
+    requests_session=True
+))
 user_info = sp.current_user()
 st.success(f"認証成功：{user_info['display_name']}")
 # サイズ設定
