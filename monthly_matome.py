@@ -26,7 +26,7 @@ auth_manager = SpotifyOAuth(
     redirect_uri=redirect_uri,
     scope=scope,
     show_dialog=True,
-    cache_path=".cache"  # 認証トークンのキャッシュ
+    #cache_path=".cache"  # 認証トークンのキャッシュ
 )
 # StreamlitでURLパラメータを取得
 query_params = st.experimental_get_query_params()
@@ -45,8 +45,6 @@ else:
         st.success(f"ログイン成功！ようこそ {user_info['display_name']} さん")
     else:
         st.error("認証に失敗しました。")
-
-print("\n上のURLをブラウザで開いて、認証してください。認証後リダイレクトURLにcode=が付きます。")
 
 # サイズ設定
 image_size = (100, 100)
