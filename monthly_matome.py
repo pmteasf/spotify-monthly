@@ -16,9 +16,6 @@ from io import BytesIO, TextIOWrapper
 client_id = st.secrets["SPOTIFY_CLIENT_ID"]
 client_secret = st.secrets["SPOTIFY_CLIENT_SECRET"]
 redirect_uri = st.secrets["SPOTIFY_REDIRECT_URI"]
-# StreamlitでURLパラメータを取得
-query_params = st.experimental_get_query_params()
-code = query_params.get("code", [None])[0]
 sp = spotipy.Spotify(auth_manager=SpotifyClientCredentials(
     client_id,
     client_secret
