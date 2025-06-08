@@ -1,3 +1,4 @@
+
 import spotipy
 from spotipy.oauth2 import SpotifyClientCredentials
 from spotipy.oauth2 import SpotifyOAuth
@@ -54,9 +55,10 @@ def Get_top_tracks(monthly_data):
 
 # 楽曲画像URLを取得する関数
 def Get_track_image_url(artist, track):
-    query = f"{artist} {track}"
-    result = sp.search(q=query, type='track', limit=1)
+    query = f"artist:{artist} track:{track}"
+    result = sp.search(q=query, type='track', market="JP", limit=1)
     items = result['tracks']['items']
+    print(items)
     if items:
         return items[0]['album']['images'][0]['url']  # 一番大きい画像
     else:
@@ -65,8 +67,8 @@ def Get_track_image_url(artist, track):
 # アーティスト画像URLを取得する関数    
 def Get_artist_image_url(artist, track=None):
     if track:
-        query = f"{artist} {track}"
-        result = sp.search(q=query, type='track', limit=1)
+        query = f'artist:"{artist}" track:"{track}"'
+        result = sp.search(q=query, type='track', market="JP", limit=1)
         items = result['tracks']['items']
         if items and items[0]['artists']:
             artist_id = items[0]['artists'][0]['id']
