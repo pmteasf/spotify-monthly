@@ -142,6 +142,7 @@ def Plot_top_artists_image(top_artists):
     
 st.title("Spotify 月間レポート Webアプリ")
 form_url = "https://forms.gle/JwJcjSMGK5T7bLCm9"
+st.write("バグが発生した場合はスクショを取っていただいて、このボタンを押してください。すいません")
 st.markdown(f'<a href="{form_url}" target="_blank"><button>バグ報告フォームに回答</button></a>', unsafe_allow_html=True)
 # ZIPファイルアップロード（中に複数のJSONファイルが入っている前提）
 uploaded_zip = st.file_uploader("再生履歴の ZIP ファイルをアップロード", type="zip")
