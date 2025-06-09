@@ -139,8 +139,10 @@ def Plot_top_artists_image(top_artists):
         draw.text((text_x, y), f"{i+1}. {row['artistName']}", fill="black", font=font_title)
         draw.text((text_x, y + 30), f"合計時間: {row['total_time']}", fill="gray", font=font_artist)
     img.save("./result/top_artist.png")
+    
 st.title("Spotify 月間レポート Webアプリ")
-
+form_url = "https://forms.gle/JwJcjSMGK5T7bLCm9"
+st.markdown(f'<a href="{form_url}" target="_blank"><button>バグ報告フォームに回答</button></a>', unsafe_allow_html=True)
 # ZIPファイルアップロード（中に複数のJSONファイルが入っている前提）
 uploaded_zip = st.file_uploader("再生履歴の ZIP ファイルをアップロード", type="zip")
 
